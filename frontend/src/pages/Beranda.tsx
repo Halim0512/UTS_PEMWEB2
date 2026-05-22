@@ -6,6 +6,7 @@ import { useAuthStore } from "../Store/useAuthstore";
 export default function Beranda() {
   const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
+  const API = import.meta.env.VITE_API_URL;
 
   const [events, setEvents] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
@@ -18,11 +19,9 @@ export default function Beranda() {
 
   const fetchData = async () => {
     try {
-      const eventRes = await axios.get("http://localhost:3000/events");
-
-      const categoryRes = await axios.get("http://localhost:3000/categories");
-
-      const speakerRes = await axios.get("http://localhost:3000/speakers");
+      const eventRes = await axios.get(`${API}/events`);
+      const categoryRes = await axios.get(`${API}/categories`);
+      const speakerRes = await axios.get(`${API}/speakers`);
 
       setEvents(eventRes.data);
       setCategories(categoryRes.data);
@@ -39,7 +38,7 @@ export default function Beranda() {
   const handleDeleteEvent = async (id: number) => {
     if (!confirm("Yakin hapus event?")) return;
 
-    await axios.delete(`http://localhost:3000/events/${id}`);
+    await axios.delete(`${API}/events/${id}`);
 
     fetchData();
   };
@@ -47,7 +46,7 @@ export default function Beranda() {
   const handleDeleteCategory = async (id: number) => {
     if (!confirm("Yakin hapus kategori?")) return;
 
-    await axios.delete(`http://localhost:3000/categories/${id}`);
+    await axios.delete(`${API}/categories/${id}`);
 
     fetchData();
   };
@@ -55,7 +54,7 @@ export default function Beranda() {
   const handleDeleteSpeaker = async (id: number) => {
     if (!confirm("Yakin hapus pembicara?")) return;
 
-    await axios.delete(`http://localhost:3000/speakers/${id}`);
+    await axios.delete(`${API}/speakers/${id}`);
 
     fetchData();
   };

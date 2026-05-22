@@ -36,6 +36,7 @@ export default function CreateEvent() {
   const [editId, setEditId] = useState<number | null>(null);
 
   const navigate = useNavigate();
+  const API = import.meta.env.VITE_API_URL;
 
   const {
     register,
@@ -53,7 +54,7 @@ export default function CreateEvent() {
     try {
 
       const response = await axios.get(
-        "http://localhost:3000/events"
+        `${API}/events`
       );
 
       setEvents(response.data);
@@ -69,13 +70,13 @@ export default function CreateEvent() {
     try {
 
       const categoryResponse = await axios.get(
-        "http://localhost:3000/categories"
+        `${API}/categories`
       );
 
       setCategories(categoryResponse.data);
 
       const speakerResponse = await axios.get(
-        "http://localhost:3000/speakers"
+        `${API}/speakers`
       );
 
       setSpeakers(speakerResponse.data);
@@ -110,7 +111,7 @@ export default function CreateEvent() {
       if (editId) {
 
         await axios.put(
-          `http://localhost:3000/events/${editId}`,
+          `${API}/events/${editId}`,
           payload
         );
 
@@ -120,7 +121,7 @@ export default function CreateEvent() {
 
         // CREATE
         await axios.post(
-          "http://localhost:3000/events",
+          `${API}/events`,
           payload
         );
 
@@ -153,7 +154,7 @@ export default function CreateEvent() {
     try {
 
       await axios.delete(
-        `http://localhost:3000/events/${id}`
+        `${API}/events/${id}`
       );
 
       alert("Event berhasil dihapus");

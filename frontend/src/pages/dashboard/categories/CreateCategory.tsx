@@ -24,6 +24,7 @@ export default function CreateCategory() {
   const [editId, setEditId] = useState<number | null>(null);
 
   const navigate = useNavigate();
+  const API = import.meta.env.VITE_API_URL;
 
   const {
     register,
@@ -41,7 +42,7 @@ export default function CreateCategory() {
     try {
 
       const response = await axios.get(
-        "https://utspemweb2-production.up.railway.app/categories"
+        await axios.get(`${API}/categories`)
       );
 
       setCategories(response.data);
@@ -63,7 +64,7 @@ export default function CreateCategory() {
       if (editId) {
 
         await axios.put(
-          `http://localhost:3000/categories/${editId}`,
+          await axios.put(`${API}/categories/${editId}`),
           {
             name: data.nama,
           }
@@ -74,7 +75,7 @@ export default function CreateCategory() {
       } else {
 
         await axios.post(
-          "http://localhost:3000/categories",
+          await axios.post(`${API}/categories`),
           {
             name: data.nama,
           }
@@ -109,7 +110,7 @@ export default function CreateCategory() {
     try {
 
       await axios.delete(
-        `http://localhost:3000/categories/${id}`
+        await axios.delete(`${API}/categories/${id}`)
       );
 
       alert("Category berhasil dihapus");

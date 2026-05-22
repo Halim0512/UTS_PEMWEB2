@@ -28,6 +28,7 @@ export default function CreateSpeakers() {
   const [editId, setEditId] = useState<number | null>(null);
 
   const navigate = useNavigate();
+  const API = import.meta.env.VITE_API_URL;
 
   const {
     register,
@@ -45,7 +46,7 @@ export default function CreateSpeakers() {
     try {
 
       const response = await axios.get(
-        "http://localhost:3000/speakers"
+        `${API}/speakers`
       );
 
       setSpeakers(response.data);
@@ -74,7 +75,7 @@ export default function CreateSpeakers() {
       if (editId) {
 
         await axios.put(
-          `http://localhost:3000/speakers/${editId}`,
+          `${API}/speakers/${editId}`,
           payload
         );
 
@@ -84,7 +85,7 @@ export default function CreateSpeakers() {
 
         // CREATE
         await axios.post(
-          "http://localhost:3000/speakers",
+          `${API}/speakers`,
           payload
         );
 
@@ -117,7 +118,7 @@ export default function CreateSpeakers() {
     try {
 
       await axios.delete(
-        `http://localhost:3000/speakers/${id}`
+        `${API}/speakers/${id}`
       );
 
       alert("Guest Stars berhasil dihapus");
