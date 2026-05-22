@@ -19,11 +19,11 @@ const schema = z.object({
 });
 
 export default function CreateCategory() {
-
   const [categories, setCategories] = useState<any[]>([]);
   const [editId, setEditId] = useState<number | null>(null);
 
   const navigate = useNavigate();
+
   const API = import.meta.env.VITE_API_URL;
 
   const {
@@ -38,15 +38,10 @@ export default function CreateCategory() {
 
   // GET
   const fetchCategories = async () => {
-
     try {
-
-      const response = await axios.get(
-        await axios.get(`${API}/categories`)
-      );
+      const response = await axios.get(`${API}/categories`);
 
       setCategories(response.data);
-
     } catch (error) {
       console.log(error);
     }
@@ -58,27 +53,24 @@ export default function CreateCategory() {
 
   // CREATE & UPDATE
   const onSubmit = async (data: FormData) => {
-
     try {
+      const payload = {
+        name: data.nama,
+      };
 
+      // UPDATE
       if (editId) {
-
         await axios.put(
-          await axios.put(`${API}/categories/${editId}`),
-          {
-            name: data.nama,
-          }
+          `${API}/categories/${editId}`,
+          payload
         );
 
         alert("Category berhasil diupdate");
-
       } else {
-
+        // CREATE
         await axios.post(
-          await axios.post(`${API}/categories`),
-          {
-            name: data.nama,
-          }
+          `${API}/categories`,
+          payload
         );
 
         alert("Category berhasil ditambahkan");
@@ -89,9 +81,7 @@ export default function CreateCategory() {
       reset();
 
       setEditId(null);
-
     } catch (error) {
-
       console.log(error);
 
       alert("Terjadi kesalahan");
@@ -100,7 +90,6 @@ export default function CreateCategory() {
 
   // DELETE
   const handleDelete = async (id: number) => {
-
     const confirmDelete = confirm(
       "Yakin ingin menghapus?"
     );
@@ -108,24 +97,20 @@ export default function CreateCategory() {
     if (!confirmDelete) return;
 
     try {
-
       await axios.delete(
-        await axios.delete(`${API}/categories/${id}`)
+        `${API}/categories/${id}`
       );
 
       alert("Category berhasil dihapus");
 
       fetchCategories();
-
     } catch (error) {
-
       console.log(error);
     }
   };
 
   // EDIT
   const handleEdit = (category: any) => {
-
     setEditId(category.id);
 
     setValue("nama", category.name);
@@ -133,7 +118,6 @@ export default function CreateCategory() {
 
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
-
       {/* BACK */}
       <button
         onClick={() => navigate("/dashboard")}
@@ -144,20 +128,16 @@ export default function CreateCategory() {
 
       {/* FORM */}
       <div className="bg-white rounded-2xl shadow-md p-8 w-full max-w-md">
-
         <h1 className="text-2xl font-bold mb-6">
-
           {editId
             ? "Edit Category"
             : "Create Category"}
-
         </h1>
 
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-4"
         >
-
           <FormInput
             label="Nama"
             name="nama"
@@ -178,20 +158,14 @@ export default function CreateCategory() {
             isLoading={isSubmitting}
             className="w-full"
           />
-
         </form>
-
       </div>
 
       {/* TABLE */}
       <div className="mt-10 bg-white rounded-2xl shadow-md overflow-hidden">
-
         <table className="w-full">
-
           <thead className="bg-gray-200">
-
             <tr>
-
               <th className="p-4 text-left">
                 ID
               </th>
@@ -203,20 +177,15 @@ export default function CreateCategory() {
               <th className="p-4 text-center">
                 Action
               </th>
-
             </tr>
-
           </thead>
 
           <tbody>
-
             {categories.map((category) => (
-
               <tr
                 key={category.id}
                 className="border-t"
               >
-
                 <td className="p-4">
                   {category.id}
                 </td>
@@ -226,7 +195,6 @@ export default function CreateCategory() {
                 </td>
 
                 <td className="p-4 flex justify-center gap-3">
-
                   <button
                     onClick={() =>
                       handleEdit(category)
@@ -244,19 +212,12 @@ export default function CreateCategory() {
                   >
                     Delete
                   </button>
-
                 </td>
-
               </tr>
-
             ))}
-
           </tbody>
-
         </table>
-
       </div>
-
     </div>
   );
 }
