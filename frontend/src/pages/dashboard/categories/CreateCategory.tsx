@@ -41,7 +41,7 @@ export default function CreateCategory() {
     try {
 
       const response = await axios.get(
-        "http://localhost:3000/categories"
+        "https://utspemweb2-production.up.railway.app/categories"
       );
 
       setCategories(response.data);
