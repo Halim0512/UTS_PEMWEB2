@@ -29,13 +29,8 @@ export default function Login() {
   const login = useAuthStore((state) => state.login);
 
   const onSubmit = (data: LoginForm) => {
-
     // LOGIN MANUAL
-    if (
-      data.nim === "24090118" &&
-      data.password === "123456"
-    ) {
-
+    if (data.nim === "24090118" && data.password === "123456") {
       alert("Login berhasil!");
 
       // simpan ke zustand
@@ -43,7 +38,6 @@ export default function Login() {
 
       // redirect
       navigate("/dashboard");
-
     } else {
       alert("NIM atau Password salah!");
     }
@@ -51,22 +45,14 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-
       <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-sm">
-
         <h1 className="text-2xl font-bold text-center mb-1">
           Event Management
         </h1>
 
-        <p className="text-center text-gray-500 mb-6">
-          Login Admin
-        </p>
+        <p className="text-center text-gray-500 mb-6">Login Admin</p>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-4"
-        >
-
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <InputText
             label="NIM"
             name="nim"
@@ -87,9 +73,7 @@ export default function Login() {
           >
             Login
           </button>
-
         </form>
-
       </div>
     </div>
   );

@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import FormInput from "../../../components/Forminput";
 import { Button } from "../../../components/ui/Button";
 
@@ -60,18 +59,12 @@ export default function CreateCategory() {
 
       // UPDATE
       if (editId) {
-        await axios.put(
-          `${API}/categories/${editId}`,
-          payload
-        );
+        await axios.put(`${API}/categories/${editId}`, payload);
 
         alert("Category berhasil diupdate");
       } else {
         // CREATE
-        await axios.post(
-          `${API}/categories`,
-          payload
-        );
+        await axios.post(`${API}/categories`, payload);
 
         alert("Category berhasil ditambahkan");
       }
@@ -90,16 +83,12 @@ export default function CreateCategory() {
 
   // DELETE
   const handleDelete = async (id: number) => {
-    const confirmDelete = confirm(
-      "Yakin ingin menghapus?"
-    );
+    const confirmDelete = confirm("Yakin ingin menghapus?");
 
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(
-        `${API}/categories/${id}`
-      );
+      await axios.delete(`${API}/categories/${id}`);
 
       alert("Category berhasil dihapus");
 
@@ -129,15 +118,10 @@ export default function CreateCategory() {
       {/* FORM */}
       <div className="bg-white rounded-2xl shadow-md p-8 w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6">
-          {editId
-            ? "Edit Category"
-            : "Create Category"}
+          {editId ? "Edit Category" : "Create Category"}
         </h1>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-4"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <FormInput
             label="Nama"
             name="nama"
@@ -148,11 +132,7 @@ export default function CreateCategory() {
           />
 
           <Button
-            label={
-              editId
-                ? "Update"
-                : "Simpan"
-            }
+            label={editId ? "Update" : "Simpan"}
             variant="primary"
             type="submit"
             isLoading={isSubmitting}
@@ -166,48 +146,31 @@ export default function CreateCategory() {
         <table className="w-full">
           <thead className="bg-gray-200">
             <tr>
-              <th className="p-4 text-left">
-                ID
-              </th>
+              <th className="p-4 text-left">ID</th>
 
-              <th className="p-4 text-left">
-                Nama
-              </th>
+              <th className="p-4 text-left">Nama</th>
 
-              <th className="p-4 text-center">
-                Action
-              </th>
+              <th className="p-4 text-center">Action</th>
             </tr>
           </thead>
 
           <tbody>
             {categories.map((category) => (
-              <tr
-                key={category.id}
-                className="border-t"
-              >
-                <td className="p-4">
-                  {category.id}
-                </td>
+              <tr key={category.id} className="border-t">
+                <td className="p-4">{category.id}</td>
 
-                <td className="p-4">
-                  {category.name}
-                </td>
+                <td className="p-4">{category.name}</td>
 
                 <td className="p-4 flex justify-center gap-3">
                   <button
-                    onClick={() =>
-                      handleEdit(category)
-                    }
+                    onClick={() => handleEdit(category)}
                     className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg"
                   >
                     Edit
                   </button>
 
                   <button
-                    onClick={() =>
-                      handleDelete(category.id)
-                    }
+                    onClick={() => handleDelete(category.id)}
                     className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
                   >
                     Delete

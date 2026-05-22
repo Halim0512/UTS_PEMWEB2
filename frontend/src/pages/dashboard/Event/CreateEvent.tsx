@@ -29,7 +29,6 @@ const schema = z.object({
 });
 
 export default function CreateEvent() {
-
   const [events, setEvents] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [speakers, setSpeakers] = useState<any[]>([]);
@@ -50,15 +49,10 @@ export default function CreateEvent() {
 
   // GET EVENTS
   const fetchEvents = async () => {
-
     try {
-
-      const response = await axios.get(
-        `${API}/events`
-      );
+      const response = await axios.get(`${API}/events`);
 
       setEvents(response.data);
-
     } catch (error) {
       console.log(error);
     }
@@ -66,38 +60,27 @@ export default function CreateEvent() {
 
   // GET CATEGORY & SPEAKER
   const fetchDropdownData = async () => {
-
     try {
-
-      const categoryResponse = await axios.get(
-        `${API}/categories`
-      );
+      const categoryResponse = await axios.get(`${API}/categories`);
 
       setCategories(categoryResponse.data);
 
-      const speakerResponse = await axios.get(
-        `${API}/speakers`
-      );
+      const speakerResponse = await axios.get(`${API}/speakers`);
 
       setSpeakers(speakerResponse.data);
-
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-
     fetchEvents();
     fetchDropdownData();
-
   }, []);
 
   // CREATE & UPDATE
   const onSubmit = async (data: FormData) => {
-
     try {
-
       const payload = {
         name: data.nama,
         categoryId: Number(data.categoryId),
@@ -109,21 +92,12 @@ export default function CreateEvent() {
 
       // UPDATE
       if (editId) {
-
-        await axios.put(
-          `${API}/events/${editId}`,
-          payload
-        );
+        await axios.put(`${API}/events/${editId}`, payload);
 
         alert("Event berhasil diupdate");
-
       } else {
-
         // CREATE
-        await axios.post(
-          `${API}/events`,
-          payload
-        );
+        await axios.post(`${API}/events`, payload);
 
         alert("Event berhasil ditambahkan");
       }
@@ -133,9 +107,7 @@ export default function CreateEvent() {
       reset();
 
       setEditId(null);
-
     } catch (error) {
-
       console.log(error);
 
       alert("Terjadi kesalahan");
@@ -144,25 +116,17 @@ export default function CreateEvent() {
 
   // DELETE
   const handleDelete = async (id: number) => {
-
-    const confirmDelete = confirm(
-      "Yakin ingin menghapus?"
-    );
+    const confirmDelete = confirm("Yakin ingin menghapus?");
 
     if (!confirmDelete) return;
 
     try {
-
-      await axios.delete(
-        `${API}/events/${id}`
-      );
+      await axios.delete(`${API}/events/${id}`);
 
       alert("Event berhasil dihapus");
 
       fetchEvents();
-
     } catch (error) {
-
       console.log(error);
 
       alert("Gagal menghapus");
@@ -171,7 +135,6 @@ export default function CreateEvent() {
 
   // EDIT
   const handleEdit = (event: any) => {
-
     setEditId(event.id);
 
     setValue("nama", event.name);
@@ -179,17 +142,13 @@ export default function CreateEvent() {
     setValue("speakerId", String(event.speakerId));
     setValue("lokasi", event.location);
 
-    setValue(
-      "tanggal",
-      event.dateEvent.split("T")[0]
-    );
+    setValue("tanggal", event.dateEvent.split("T")[0]);
 
     setValue("deskripsi", event.description);
   };
 
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
-
       {/* BUTTON BACK */}
       <button
         onClick={() => navigate("/dashboard")}
@@ -200,20 +159,11 @@ export default function CreateEvent() {
 
       {/* FORM */}
       <div className="bg-white rounded-2xl shadow-md p-8 w-full max-w-3xl">
-
         <h1 className="text-2xl font-bold mb-6">
-
-          {editId
-            ? "Edit Event"
-            : "Create Event"}
-
+          {editId ? "Edit Event" : "Create Event"}
         </h1>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-4"
-        >
-
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <FormInput
             label="Nama Event"
             name="nama"
@@ -225,72 +175,46 @@ export default function CreateEvent() {
 
           {/* CATEGORY */}
           <div>
-
-            <label className="font-medium">
-              Category
-            </label>
+            <label className="font-medium">Category</label>
 
             <select
               {...register("categoryId")}
               className="w-full border rounded-lg p-3 mt-1"
             >
-
-              <option value="">
-                Pilih Category
-              </option>
+              <option value="">Pilih Category</option>
 
               {categories.map((category) => (
-
-                <option
-                  key={category.id}
-                  value={category.id}
-                >
+                <option key={category.id} value={category.id}>
                   {category.name}
                 </option>
-
               ))}
-
             </select>
 
             <p className="text-red-500 text-sm mt-1">
               {errors.categoryId?.message}
             </p>
-
           </div>
 
           {/* SPEAKER */}
           <div>
-
-            <label className="font-medium">
-              Pembicara
-            </label>
+            <label className="font-medium">Pembicara</label>
 
             <select
               {...register("speakerId")}
               className="w-full border rounded-lg p-3 mt-1"
             >
-
-              <option value="">
-                Pilih Pembicara
-              </option>
+              <option value="">Pilih Pembicara</option>
 
               {speakers.map((speaker) => (
-
-                <option
-                  key={speaker.id}
-                  value={speaker.id}
-                >
+                <option key={speaker.id} value={speaker.id}>
                   {speaker.name}
                 </option>
-
               ))}
-
             </select>
 
             <p className="text-red-500 text-sm mt-1">
               {errors.speakerId?.message}
             </p>
-
           </div>
 
           <FormInput
@@ -320,98 +244,54 @@ export default function CreateEvent() {
           />
 
           <Button
-            label={
-              editId
-                ? "Update"
-                : "Simpan"
-            }
+            label={editId ? "Update" : "Simpan"}
             variant="primary"
             type="submit"
             isLoading={isSubmitting}
           />
-
         </form>
-
       </div>
 
       {/* TABLE */}
       <div className="mt-10 bg-white rounded-2xl shadow-md overflow-x-auto">
-
         <table className="w-full table-fixed">
-
           <thead className="bg-gray-200">
-
             <tr className="text-center">
+              <th className="p-4 w-16">ID</th>
 
-              <th className="p-4 w-16">
-                ID
-              </th>
+              <th className="p-4 w-48">Nama Event</th>
 
-              <th className="p-4 w-48">
-                Nama Event
-              </th>
+              <th className="p-4 w-36">Category</th>
 
-              <th className="p-4 w-36">
-                Category
-              </th>
+              <th className="p-4 w-36">Pembicara</th>
 
-              <th className="p-4 w-36">
-                Pembicara
-              </th>
+              <th className="p-4 w-40">Lokasi</th>
 
-              <th className="p-4 w-40">
-                Lokasi
-              </th>
+              <th className="p-4 w-32">Tanggal</th>
 
-              <th className="p-4 w-32">
-                Tanggal
-              </th>
-
-              <th className="p-4 w-52">
-                Action
-              </th>
-
+              <th className="p-4 w-52">Action</th>
             </tr>
-
           </thead>
 
           <tbody>
-
             {events.map((event) => (
+              <tr key={event.id} className="border-t text-center">
+                <td className="p-4 break-all">{event.id}</td>
 
-              <tr
-                key={event.id}
-                className="border-t text-center"
-              >
+                <td className="p-4 break-all">{event.name}</td>
 
-                <td className="p-4 break-all">
-                  {event.id}
-                </td>
+                <td className="p-4 break-all">{event.category?.name}</td>
 
-                <td className="p-4 break-all">
-                  {event.name}
-                </td>
+                <td className="p-4 break-all">{event.speaker?.name}</td>
 
-                <td className="p-4 break-all">
-                  {event.category?.name}
-                </td>
-
-                <td className="p-4 break-all">
-                  {event.speaker?.name}
-                </td>
-
-                <td className="p-4 break-all">
-                  {event.location}
-                </td>
+                <td className="p-4 break-all">{event.location}</td>
 
                 <td className="p-4 break-all">
                   {new Date(event.dateEvent).toLocaleDateString()}
                 </td>
 
                 <td className="p-4">
-
                   <div className="flex justify-center gap-2">
-
                     <button
                       onClick={() => handleEdit(event)}
                       className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg"
@@ -425,21 +305,13 @@ export default function CreateEvent() {
                     >
                       Delete
                     </button>
-
                   </div>
-
                 </td>
-
               </tr>
-
             ))}
-
           </tbody>
-
         </table>
-
       </div>
-
     </div>
   );
 }

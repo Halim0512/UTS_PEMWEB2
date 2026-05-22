@@ -6,10 +6,7 @@ export default function ProtectedRoute({
 }: {
   children: React.ReactNode;
 }) {
-
-  const isLogin = useAuthStore(
-    (state) => state.isLogin
-  );
+  const isLogin = useAuthStore((state) => state.isLogin);
 
   if (!isLogin) {
     return <Navigate to="/" />;

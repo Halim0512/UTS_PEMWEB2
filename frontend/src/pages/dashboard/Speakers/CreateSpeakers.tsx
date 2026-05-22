@@ -23,7 +23,6 @@ const schema = z.object({
 });
 
 export default function CreateSpeakers() {
-
   const [speakers, setSpeakers] = useState<any[]>([]);
   const [editId, setEditId] = useState<number | null>(null);
 
@@ -42,15 +41,10 @@ export default function CreateSpeakers() {
 
   // GET DATA
   const fetchSpeakers = async () => {
-
     try {
-
-      const response = await axios.get(
-        `${API}/speakers`
-      );
+      const response = await axios.get(`${API}/speakers`);
 
       setSpeakers(response.data);
-
     } catch (error) {
       console.log(error);
     }
@@ -62,9 +56,7 @@ export default function CreateSpeakers() {
 
   // CREATE & UPDATE
   const onSubmit = async (data: FormData) => {
-
     try {
-
       const payload = {
         name: data.nama,
         role: data.role,
@@ -73,21 +65,12 @@ export default function CreateSpeakers() {
 
       // UPDATE
       if (editId) {
-
-        await axios.put(
-          `${API}/speakers/${editId}`,
-          payload
-        );
+        await axios.put(`${API}/speakers/${editId}`, payload);
 
         alert("Pembicara berhasil diupdate");
-
       } else {
-
         // CREATE
-        await axios.post(
-          `${API}/speakers`,
-          payload
-        );
+        await axios.post(`${API}/speakers`, payload);
 
         alert("Pembicara berhasil ditambahkan");
       }
@@ -97,9 +80,7 @@ export default function CreateSpeakers() {
       reset();
 
       setEditId(null);
-
     } catch (error) {
-
       console.log(error);
 
       alert("Terjadi kesalahan");
@@ -108,32 +89,23 @@ export default function CreateSpeakers() {
 
   // DELETE
   const handleDelete = async (id: number) => {
-
-    const confirmDelete = confirm(
-      "Yakin ingin menghapus?"
-    );
+    const confirmDelete = confirm("Yakin ingin menghapus?");
 
     if (!confirmDelete) return;
 
     try {
-
-      await axios.delete(
-        `${API}/speakers/${id}`
-      );
+      await axios.delete(`${API}/speakers/${id}`);
 
       alert("Guest Stars berhasil dihapus");
 
       fetchSpeakers();
-
     } catch (error) {
-
       console.log(error);
     }
   };
 
   // EDIT
   const handleEdit = (speaker: any) => {
-
     setEditId(speaker.id);
 
     setValue("nama", speaker.name);
@@ -143,7 +115,6 @@ export default function CreateSpeakers() {
 
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
-
       {/* BACK */}
       <button
         onClick={() => navigate("/dashboard")}
@@ -154,20 +125,11 @@ export default function CreateSpeakers() {
 
       {/* FORM */}
       <div className="bg-white rounded-2xl shadow-md p-8 max-w-md">
-
         <h1 className="text-2xl font-bold mb-6">
-
-          {editId
-            ? "Edit Speaker"
-            : "Create Pembicara "}
-
+          {editId ? "Edit Speaker" : "Create Pembicara "}
         </h1>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-4"
-        >
-
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <FormInput
             label="Nama"
             name="nama"
@@ -196,88 +158,50 @@ export default function CreateSpeakers() {
           />
 
           <Button
-            label={
-              editId
-                ? "Update"
-                : "Simpan"
-            }
+            label={editId ? "Update" : "Simpan"}
             variant="primary"
             type="submit"
             isLoading={isSubmitting}
           />
-
         </form>
-
       </div>
 
       {/* TABLE */}
       <div className="mt-10 bg-white rounded-2xl shadow-md overflow-x-auto">
-
         <table className="w-full table-fixed">
-
           <thead className="bg-gray-200">
-
             <tr className="text-center">
+              <th className="p-4 w-16">ID</th>
 
-              <th className="p-4 w-16">
-                ID
-              </th>
+              <th className="p-4 w-48">Nama</th>
 
-              <th className="p-4 w-48">
-                Nama
-              </th>
+              <th className="p-4 w-48">Role</th>
 
-              <th className="p-4 w-48">
-                Role
-              </th>
+              <th className="p-4 w-40">Image</th>
 
-              <th className="p-4 w-40">
-                Image
-              </th>
-
-              <th className="p-4 w-52">
-                Action
-              </th>
-
+              <th className="p-4 w-52">Action</th>
             </tr>
-
           </thead>
 
           <tbody>
-
             {speakers.map((speaker) => (
+              <tr key={speaker.id} className="border-t text-center">
+                <td className="p-4 break-all">{speaker.id}</td>
 
-              <tr
-                key={speaker.id}
-                className="border-t text-center"
-              >
+                <td className="p-4 break-all">{speaker.name}</td>
 
-                <td className="p-4 break-all">
-                  {speaker.id}
-                </td>
-
-                <td className="p-4 break-all">
-                  {speaker.name}
-                </td>
-
-                <td className="p-4 break-all    ">
-                  {speaker.role}
-                </td>
+                <td className="p-4 break-all    ">{speaker.role}</td>
 
                 <td className="p-4">
-
                   <img
                     src={speaker.image}
                     alt={speaker.name}
                     className="w-16 h-16 object-cover rounded-full mx-auto"
                   />
-
                 </td>
 
                 <td className="p-4">
-
                   <div className="flex justify-center gap-2">
-
                     <button
                       onClick={() => handleEdit(speaker)}
                       className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg"
@@ -286,28 +210,18 @@ export default function CreateSpeakers() {
                     </button>
 
                     <button
-                      onClick={() =>
-                        handleDelete(speaker.id)
-                      }
+                      onClick={() => handleDelete(speaker.id)}
                       className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
                     >
                       Delete
                     </button>
-
                   </div>
-
                 </td>
-
               </tr>
-
             ))}
-
           </tbody>
-
         </table>
-
       </div>
-
     </div>
   );
 }
