@@ -47,10 +47,11 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-sm">
         <h1 className="text-2xl font-bold text-center mb-1">
-          Event Management
+          Login Dulu
         </h1>
 
-        <p className="text-center text-gray-500 mb-6">Login Admin</p>
+        <p className="text-center text-gray-500 mb-6">Login Menggunakan zustand</p>
+        <p className="text-center text-gray-500 mb-6">Untuk Nim 24090118 dan Password 123456</p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <InputText
@@ -69,7 +70,7 @@ export default function Login() {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg"
+            className="w-full bg-red-900 hover:bg-red-700 text-white font-semibold py-3 rounded-lg"
           >
             Login
           </button>
